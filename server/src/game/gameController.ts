@@ -71,6 +71,7 @@ export class GameController {
                 });
             } else {
                 client.emit('scan-failure', {});
+                console.log('scan failure.');
             }
         });
 

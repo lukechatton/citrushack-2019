@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavigationService } from './NavigationService';
+import DeviceInfo from 'react-native-device-info';
 
 export const GameContext = React.createContext();
 
@@ -19,6 +20,10 @@ export default class GameProvider extends React.Component {
     }
 
     initSocket(socket) {
+        socket.emit('login', {
+            deviceId: DeviceInfo.getUniqueID()
+        });
+
         socket.on('close-event', data => {
             socket.disconnect();
         });
