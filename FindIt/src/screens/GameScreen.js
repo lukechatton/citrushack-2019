@@ -9,6 +9,7 @@ import { theme } from '../theme';
 import ProgressBar from '../components/ProgressBar';
 import Countdown from '../components/Countdown';
 import TopPlayer from '../components/TopPlayer';
+import { Success1, Error1, Error2 } from '../providers/SoundService';
 
 export default class extends React.Component {
     constructor(props) {
@@ -40,10 +41,12 @@ class Inner extends React.Component {
     componentDidMount() {
         this.props.gameContext.state.socket.on('scan-success', () => {
             this.setState({ pictureResponseAt: Date.now() });
+            Success1.play();
         });
 
         this.props.gameContext.state.socket.on('scan-failure', () => {
             this.setState({ pictureResponseAt: Date.now() });
+            Error2.play();
         });
     }
     
