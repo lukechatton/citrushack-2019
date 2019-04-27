@@ -41,6 +41,7 @@ export default class GameProvider extends React.Component {
 
         socket.on('update-user', data => {
             this.setState({ user: data.user });
+            console.log('user:', data.user);
         });
     }
 

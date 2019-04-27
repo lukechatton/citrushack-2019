@@ -3,6 +3,7 @@ import { connectionController } from "../connection/connectionController";
 import ScavengerItem from "./ScavengerItem";
 import { itemList } from "./items";
 import { visionClient } from "../vision/vision";
+import { shuffleArray } from "../util/utils";
 
 const ITEM_COUNT = 5;
 
@@ -18,22 +19,26 @@ export class GameController {
     }
 
     async start() {
-        // reset player scores
-        for(let player of connectionController.players) {
-            player.score = 0;
-            player.completedItems = [];
-            this.handleClientEvents(player);
-            player.emit('update-user', {
-                user: this.getClientboundPlayerData(player)
-            })
-        }
-
         // randomly generate item list
         this.items = [];
         for(let i = 0; i < ITEM_COUNT; i++) {
             this.items.push(itemList[Math.floor(Math.random() * itemList.length)]);
         }
 
+        // reset player scores
+        for(let player of connectionController.players) {
+            player.score = 0;
+            player.completedItems = [];
+            this.handleClientEvents(player);
+
+            let items = [...this.items];
+            shuffleArray(items);
+            player.itemQueue = items;
+
+            player.emit('update-user', {
+                user: this.getClientboundPlayerData(player)
+            });
+        }
 
         this.io.emit('start-game', this.getGameState());
     }
@@ -41,6 +46,7 @@ export class GameController {
     handleClientEvents(client: GamePlayer) {
         
         client.on('scan-image', async (image) => {
+            if(client.itemQueue.length == 0) return; //already completed
 
             // https://github.com/googleapis/nodejs-vision/blob/master/samples/detect.js#L691
             const request = {
@@ -56,7 +62,7 @@ export class GameController {
 
                 const foundItem = this.getScavengerItem(object.name);
                 if(foundItem) {
-                    if(!this.hasPlayerFoundItem(client, foundItem)) {
+                    if(foundItem.name == client.itemQueue[0].name) {
                         client.completedItems.push(foundItem);
                         foundItems.push(foundItem);
                     }
@@ -112,7 +118,8 @@ export class GameController {
         return {
             user: player.user,
             score: player.score,
-            completedItems: player.completedItems
+            completedItems: player.completedItems,
+            itemQueue: player.itemQueue
         }
     }
 }

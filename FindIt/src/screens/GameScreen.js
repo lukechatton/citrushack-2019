@@ -25,6 +25,11 @@ export default class extends React.Component {
 class Inner extends React.Component {
     
     render() {
+        let currentItem = '';
+        if(this.props.gameContext.state.user.itemQueue && this.props.gameContext.state.user.itemQueue.length > 0) {
+            currentItem = this.props.gameContext.state.user.itemQueue[0];
+        }
+
         return (
             <View style={styles.container}>
                 <RNCamera
@@ -56,7 +61,7 @@ class Inner extends React.Component {
                     <SafeAreaView style={{flex: 1}}>
                         <ProgressBar />
                         <View style={styles.searchWrapper}>
-                            <Text style={styles.searchText}>CHAIR</Text>
+                            <Text style={styles.searchText}>{ currentItem ? currentItem.name : ''}</Text>
                         </View>
                         <View style={{flex: 1}} />
                         <View style={styles.bottomToolbar}>
