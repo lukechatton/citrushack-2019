@@ -123,7 +123,11 @@ class Inner extends React.Component {
                 <View style={styles.overlayWrapper}>
                     <SafeAreaView style={{flex: 1}}>
                         <ProgressBar />
-                        { this.shouldShowLoading() ? <ActivityIndicator style={styles.uploadingIndicator} color={theme.green} /> : null }
+                        { this.shouldShowLoading() ? (
+                            <View style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height, alignItems: 'center', justifyContent: 'center', position: 'absolute'}}>
+                                <ActivityIndicator style={styles.uploadingIndicator} color={theme.green} size='large' />
+                            </View>
+                        ) : null }
 
                         <Animated.Image 
                             style={[styles.successImage, { opacity: this.successOpacity, transform: [{translateX: this.successX}] }]} 
@@ -226,9 +230,7 @@ const styles = StyleSheet.create({
         fontSize: 29
     },
     uploadingIndicator: {
-        position: 'absolute',
-        left: 30,
-        top: 30
+        
     },
     successImage: {
         width: 80,
