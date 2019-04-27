@@ -9,6 +9,7 @@ import {
 } from "react-navigation";
 import HomeScreen from "./screens/HomeScreen";
 import GameScreen from "./screens/GameScreen";
+import EndScreen from "./screens/EndScreen";
 
 export const createRootNavigation = () => {
     return createAppContainer(createSwitchNavigator(
@@ -18,6 +19,9 @@ export const createRootNavigation = () => {
             },
             Game: {
                 screen: GameScreen
+            },
+            End: {
+                screen: EndScreen
             }
         },
         {
