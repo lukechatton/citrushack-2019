@@ -1,7 +1,7 @@
 import React from 'react';
 import { 
     View, Text, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView,
-    ActivityIndicator
+    ActivityIndicator, Animated
 } from 'react-native';
 import { RNCamera, FaceDetector } from 'react-native-camera';
 import { GameContext } from '../providers/GameProvider';
@@ -32,6 +32,12 @@ class Inner extends React.Component {
     constructor(props) {
         super(props);
 
+        this.successOpacity = new Animated.Value(0);
+        this.successX = new Animated.Value(0);
+
+        this.failureOpacity = new Animated.Value(0);
+        this.failureX = new Animated.Value(0);
+
         this.state = {
             pictureTakenAt: 0,
             pictureResponseAt: 0
@@ -42,11 +48,41 @@ class Inner extends React.Component {
         this.props.gameContext.state.socket.on('scan-success', () => {
             this.setState({ pictureResponseAt: Date.now() });
             Success1.play();
+
+            Animated.timing(this.successOpacity, {
+                toValue: 1,
+                duration: 500
+            }).start();
+            setTimeout(() => {
+                Animated.timing(this.successX, {
+                    toValue: Dimensions.get('window').width,
+                    duration: 200
+                }).start();
+                this.successOpacity = new Animated.Value(0);
+                setTimeout(() => {
+                    this.successX = new Animated.Value(0);
+                })
+            }, 1500);
         });
 
         this.props.gameContext.state.socket.on('scan-failure', () => {
             this.setState({ pictureResponseAt: Date.now() });
             Error2.play();
+
+            Animated.timing(this.failureOpacity, {
+                toValue: 1,
+                duration: 500
+            }).start();
+            setTimeout(() => {
+                Animated.timing(this.failureX, {
+                    toValue: Dimensions.get('window').width,
+                    duration: 200
+                }).start();
+                this.failureOpacity = new Animated.Value(0);
+                setTimeout(() => {
+                    this.failureX = new Animated.Value(0);
+                })
+            }, 1500);
         });
     }
     
@@ -88,6 +124,15 @@ class Inner extends React.Component {
                     <SafeAreaView style={{flex: 1}}>
                         <ProgressBar />
                         { this.shouldShowLoading() ? <ActivityIndicator style={styles.uploadingIndicator} color={theme.green} /> : null }
+
+                        <Animated.Image 
+                            style={[styles.successImage, { opacity: this.successOpacity, transform: [{translateX: this.successX}] }]} 
+                            source={require('../assets/img/check1.png')}
+                        />
+                        <Animated.Image 
+                            style={[styles.failureImage, { opacity: this.failureOpacity, transform: [{translateX: this.failureX}] }]} 
+                            source={require('../assets/img/error2.png')}
+                        />
                         
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <View style={{flex: 1}} />
@@ -184,5 +229,19 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 30,
         top: 30
+    },
+    successImage: {
+        width: 80,
+        height: 80,
+        position: 'absolute',
+        top: Dimensions.get('window').height / 2 - 40,
+        left: Dimensions.get('window').width / 2 - 40
+    },
+    failureImage: {
+        width: 80,
+        height: 80,
+        position: 'absolute',
+        top: Dimensions.get('window').height / 2 - 40,
+        left: Dimensions.get('window').width / 2 - 40
     }
 });
