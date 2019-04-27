@@ -24,7 +24,7 @@ export class ConnectionController {
                 client.completedItems = [];
                 this.players.push(client);
 
-                console.log(client.use.name + ' connected (' + this.players.length + ' total).');
+                console.log(client.user.name + ' connected (' + this.players.length + ' total).');
 
                 // start after connect for testing
                 await this.gameController.start();
