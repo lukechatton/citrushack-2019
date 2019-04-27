@@ -1,7 +1,9 @@
 import GamePlayer from "../game/GamePlayer";
+import { GameController } from "../game/gameController";
 
 export class ConnectionController {
     players: GamePlayer[] = [];
+    gameController: GameController;
 
     constructor() {
 
@@ -9,9 +11,11 @@ export class ConnectionController {
 
     async init(io: SocketIO.Server) {
         console.log('connection controller init.');
+        
+        this.gameController = new GameController(io);
 
         io.on('connection', (client: GamePlayer) => {
-            client.on('login', ({ deviceId }) => {
+            client.on('login', async ({ deviceId }) => {
                 client.user = {
                     deviceId: deviceId,
                     name: "Player" + (this.players.length + 1)
@@ -21,6 +25,9 @@ export class ConnectionController {
                 this.players.push(client);
 
                 console.log(client.use.name + ' connected (' + this.players.length + ' total).');
+
+                // start after connect for testing
+                await this.gameController.start();
             });
 
             client.on('disconnect', () => {

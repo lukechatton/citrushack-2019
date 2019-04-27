@@ -10,6 +10,8 @@ export default class GameProvider extends React.Component {
             this.setState({ socket });
             this.initSocket(socket);
         },
+
+        game: null // game state
     }
 
     constructor(props) {
@@ -23,6 +25,12 @@ export default class GameProvider extends React.Component {
 
         socket.on('disconnect', () => {
             NavigationService.navigate('Home');
+        });
+
+        socket.on('start-game', data => {
+            this.setState({ game: data.data }, () => {
+                NavigationService.navigate('Game');
+            });
         });
     }
 

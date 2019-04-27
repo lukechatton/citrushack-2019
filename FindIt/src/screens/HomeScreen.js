@@ -2,10 +2,35 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationService } from '../providers/NavigationService';
+import { GameContext } from '../providers/GameProvider';
 
 export default class extends React.Component {
     constructor(props) {
         super(props);
+    }
+
+    render() {
+        return (
+            <GameContext.Consumer>
+                {gameContext => (
+                    <Inner gameContext={gameContext} />
+                )}
+            </GameContext.Consumer>
+        )
+    }
+}
+
+class Inner extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
+        const socket = io(SOCKET_URL, {
+            transports: ['websocket'],
+            jsonp: false
+        });
+        this.props.gameContext.state.setSocket(socket);
     }
 
     render() {
