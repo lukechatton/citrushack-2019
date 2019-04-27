@@ -12,7 +12,8 @@ export default class GameProvider extends React.Component {
             this.initSocket(socket);
         },
 
-        game: null // game state
+        game: null, // game state
+        user: null
     }
 
     constructor(props) {
@@ -36,6 +37,10 @@ export default class GameProvider extends React.Component {
             this.setState({ game: data.data }, () => {
                 NavigationService.navigate('Game');
             });
+        });
+
+        socket.on('update-user', data => {
+            this.setState({ user: data.user });
         });
     }
 

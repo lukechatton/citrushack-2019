@@ -23,6 +23,9 @@ export class GameController {
             player.score = 0;
             player.completedItems = [];
             this.handleClientEvents(player);
+            player.emit('update-user', {
+                user: this.getClientboundPlayerData(player)
+            })
         }
 
         // randomly generate item list
@@ -69,6 +72,9 @@ export class GameController {
                 client.emit('scan-success', {
                     items: foundItems
                 });
+                client.emit('update-user', {
+                    user: this.getClientboundPlayerData(client)
+                });
             } else {
                 client.emit('scan-failure', {});
                 console.log('scan failure.');
@@ -99,6 +105,14 @@ export class GameController {
         return {
             players: this.players,
             items: this.items
+        }
+    }
+
+    getClientboundPlayerData(player: GamePlayer) {
+        return {
+            user: player.user,
+            score: player.score,
+            completedItems: player.completedItems
         }
     }
 }

@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
 import { RNCamera, FaceDetector } from 'react-native-camera';
 import { GameContext } from '../providers/GameProvider';
+import { theme } from '../theme';
+import ProgressBar from '../components/ProgressBar';
 
 export default class extends React.Component {
     constructor(props) {
@@ -52,6 +54,10 @@ class Inner extends React.Component {
 
                 <View style={styles.overlayWrapper}>
                     <SafeAreaView style={{flex: 1}}>
+                        <ProgressBar />
+                        <View style={styles.searchWrapper}>
+                            <Text style={styles.searchText}>CHAIR</Text>
+                        </View>
                         <View style={{flex: 1}} />
                         <View style={styles.bottomToolbar}>
                             <View style={{flex: 1}} />
@@ -96,11 +102,11 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         margin: 20,
         borderWidth: 2,
-        borderColor: '#6ce746'
+        borderColor: theme.green
     },
     captureText: {
         fontSize: 14,
-        color: '#6ce746'
+        color: theme.green
     },
     overlayWrapper: {
         position: 'absolute',
@@ -110,5 +116,16 @@ const styles = StyleSheet.create({
     bottomToolbar: {
         flexDirection: 'row',
         padding: 10
+    },
+    searchWrapper: {
+        padding: 10,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    searchText: {
+        color: theme.green,
+        fontWeight: '800',
+        fontSize: 29
     }
 });

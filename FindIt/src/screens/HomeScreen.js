@@ -5,6 +5,8 @@ import { NavigationService } from '../providers/NavigationService';
 import { GameContext } from '../providers/GameProvider';
 import io from 'socket.io-client';
 import { SOCKET_URL } from 'react-native-dotenv';
+import { theme } from '../theme';
+import { SafeAreaView } from 'react-navigation';
 
 export default class extends React.Component {
     constructor(props) {
@@ -38,12 +40,17 @@ class Inner extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.welcome}>Welcome to FindIt!</Text>
-                <TouchableOpacity onPress={() => NavigationService.navigate('Game') }>
+                <SafeAreaView style={styles.container}>
+                    <View style={{flex: 1}} />
+                    <Text style={styles.brand}>find it.</Text>
+                    <Text style={styles.brandSubtext}>scavenge the world</Text>
+                    <View style={{flex: 3}} />
+                </SafeAreaView>
+                {/* <TouchableOpacity onPress={() => NavigationService.navigate('Game') }>
                     <View style={styles.testButton}>
                         <Text style={styles.testButtonText}>Test Camera</Text>
                     </View>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         )
     }
@@ -52,19 +59,21 @@ class Inner extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        // justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#2f2f3c',
     },
-    welcome: {
-        fontSize: 20,
+    brand: {
+        fontSize: 60,
         textAlign: 'center',
-        margin: 10,
+        marginTop: 5,
+        color: theme.green,
+        fontWeight: '500'
     },
-    instructions: {
+    brandSubtext: {
+        fontSize: 25,
         textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
+        color: '#918E8E'
     },
     testButton: {
         padding: 10,
