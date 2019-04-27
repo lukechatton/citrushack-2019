@@ -60,11 +60,13 @@ export class GameController {
                 console.log(`Name: ${object.name}`);
                 console.log(`Confidence: ${object.score}`);
 
-                const foundItem = this.getScavengerItem(object.name);
-                if(foundItem) {
-                    if(foundItem.name == client.itemQueue[0].name) {
-                        client.completedItems.push(foundItem);
-                        foundItems.push(foundItem);
+                const foundItems = this.getScavengerItems(object.name);
+                if(foundItems.length > 0) {
+                    for(let foundItem of foundItems) {
+                        if(foundItem.name == client.itemQueue[0].name) {
+                            client.completedItems.push(foundItem);
+                            foundItems.push(foundItem);
+                        }
                     }
                 }
             });
@@ -89,13 +91,16 @@ export class GameController {
 
     }
 
-    getScavengerItem(name): ScavengerItem {
+    getScavengerItems(name): ScavengerItem[] {
+        let response = [];
         for(let item of this.items) {
-            if(item.name.toLowerCase() == name.toLowerCase()) {
-                return item;
+            for(let tag of item.tags) {
+                if(tag == name.toLowerCase()) {
+                    response.push(item);
+                }
             }
         }
-        return null;
+        return response;
     }
 
     hasPlayerFoundItem(player: GamePlayer, item: ScavengerItem): boolean {

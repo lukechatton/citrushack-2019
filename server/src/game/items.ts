@@ -7,11 +7,16 @@ itemList.push(
     {
         name: 'Chair',
         points: 1,
-        image: 'chair.png'
+        tags: ['chair']
     },
     {
         name: 'Table',
         points: 1,
-        image: 'table.png'
+        tags: ['table', 'desk']
     },
+    {
+        name: 'Computer',
+        points: 1,
+        tags: ['computer', 'laptop', 'monitor', 'screen']
+    }
 )
