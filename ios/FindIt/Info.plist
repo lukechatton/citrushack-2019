@@ -55,5 +55,11 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Finding items</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Finding items 2</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Detect items</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Find items during the hunt</string>
 </dict>
 </plist>
