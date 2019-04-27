@@ -24,7 +24,7 @@ class Inner extends React.Component {
     render() {
         const ticks = [];
         for(let i = itemCount; i > 0; i--) {
-            if(this.props.gameContext.state.user.score < i - 1) {
+            if(this.props.gameContext.state.user.score < i) {
                 ticks.push(
                     <View style={[styles.tick, styles.tickIncomplete]} key={i} />
                 )
