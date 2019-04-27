@@ -81,7 +81,7 @@ class Inner extends React.Component {
                 <View style={styles.overlayWrapper}>
                     <SafeAreaView style={{flex: 1}}>
                         <ProgressBar />
-                        { this.shouldShowLoading() ? <ActivityIndicator style={styles.uploadingIndicator} /> : null }
+                        { this.shouldShowLoading() ? <ActivityIndicator style={styles.uploadingIndicator} color={theme.green} /> : null }
                         
                         <View style={styles.searchWrapper}>
                             <Text style={styles.searchText}>{ currentItem ? currentItem.name : ''}</Text>
