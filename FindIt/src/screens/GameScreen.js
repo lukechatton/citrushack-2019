@@ -1,5 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
+import { 
+    View, Text, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView,
+    ActivityIndicator
+} from 'react-native';
 import { RNCamera, FaceDetector } from 'react-native-camera';
 import { GameContext } from '../providers/GameProvider';
 import { theme } from '../theme';
@@ -23,6 +26,24 @@ export default class extends React.Component {
 }
 
 class Inner extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            pictureTakenAt: 0,
+            pictureResponseAt: 0
+        }
+    }
+
+    componentDidMount() {
+        this.props.gameContext.state.socket.on('scan-success', () => {
+            this.setState({ pictureResponseAt: Date.now() });
+        });
+
+        this.props.gameContext.state.socket.on('scan-failure', () => {
+            this.setState({ pictureResponseAt: Date.now() });
+        });
+    }
     
     render() {
         let currentItem = '';
@@ -60,6 +81,8 @@ class Inner extends React.Component {
                 <View style={styles.overlayWrapper}>
                     <SafeAreaView style={{flex: 1}}>
                         <ProgressBar />
+                        { this.shouldShowLoading() ? <ActivityIndicator style={styles.uploadingIndicator} /> : null }
+                        
                         <View style={styles.searchWrapper}>
                             <Text style={styles.searchText}>{ currentItem ? currentItem.name : ''}</Text>
                         </View>
@@ -83,8 +106,18 @@ class Inner extends React.Component {
             console.log('image response:', data);
 
             this.props.gameContext.state.socket.emit('scan-image', data.base64);
+
+            this.setState({ pictureTakenAt: Date.now() })
         }
     };
+
+    shouldShowLoading() {
+        if(this.state.pictureTakenAt > this.state.pictureResponseAt) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 const styles = StyleSheet.create({
@@ -132,5 +165,10 @@ const styles = StyleSheet.create({
         color: theme.green,
         fontWeight: '800',
         fontSize: 29
+    },
+    uploadingIndicator: {
+        position: 'absolute',
+        left: 30,
+        top: 30
     }
 });
