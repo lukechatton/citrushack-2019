@@ -21,7 +21,7 @@ export const createRootNavigation = () => {
             }
         },
         {
-            initialRouteName: 'Home'
+            initialRouteName: 'Game'
         }
     ));
 }
