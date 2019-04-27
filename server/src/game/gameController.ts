@@ -6,12 +6,13 @@ import { visionClient } from "../vision/vision";
 import { shuffleArray } from "../util/utils";
 
 const ITEM_COUNT = 5;
-
+const GAME_LENGTH = 3 * 60 * 1000;
 
 export class GameController {
     players: GamePlayer[] = [];
     items: ScavengerItem[] = [];
     startedAt: number;
+    endsAt: number;
 
     constructor(
         public io: SocketIO.Server
@@ -40,6 +41,9 @@ export class GameController {
                 user: this.getClientboundPlayerData(player)
             });
         }
+
+        this.startedAt = Date.now();
+        this.endsAt = Date.now() + GAME_LENGTH;
 
         this.io.emit('start-game', this.getGameState());
     }
@@ -139,7 +143,8 @@ export class GameController {
         return {
             players: this.players,
             items: this.items,
-            topPlayer: topPlayer
+            topPlayer: topPlayer,
+            endsAt: this.endsAt
         }
     }
 

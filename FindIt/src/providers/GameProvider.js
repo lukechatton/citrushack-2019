@@ -35,7 +35,8 @@ export default class GameProvider extends React.Component {
         });
 
         socket.on('start-game', data => {
-            this.setState({ game: data.data }, () => {
+            console.log('game:', data);
+            this.setState({ game: data }, () => {
                 NavigationService.navigate('Game');
             });
         });

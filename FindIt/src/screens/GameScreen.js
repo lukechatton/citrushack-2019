@@ -7,6 +7,7 @@ import { RNCamera, FaceDetector } from 'react-native-camera';
 import { GameContext } from '../providers/GameProvider';
 import { theme } from '../theme';
 import ProgressBar from '../components/ProgressBar';
+import Countdown from '../components/Countdown';
 
 export default class extends React.Component {
     constructor(props) {
@@ -83,6 +84,14 @@ class Inner extends React.Component {
                         <ProgressBar />
                         { this.shouldShowLoading() ? <ActivityIndicator style={styles.uploadingIndicator} color={theme.green} /> : null }
                         
+                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                            <View style={{flex: 1}} />
+                            <View style={{flex: 1}} />
+                            <View style={{flex: 3}} />
+                            <Countdown endTime={this.props.gameContext.state.game.endsAt} />
+                            <View style={{flex: 1}} />
+                        </View>
+
                         <View style={styles.searchWrapper}>
                             <Text style={styles.searchText}>{ currentItem ? currentItem.name : ''}</Text>
                         </View>
