@@ -55,34 +55,47 @@ export class GameController {
             const [response] = await visionClient.objectLocalization(request); 
 
             const objects: [] = response.localizedObjectAnnotations;
-            const foundItems: ScavengerItem[] = [];
+            const filteredItems: ScavengerItem[] = [];
+            let found = false;
             objects.forEach((object: any) => {
                 console.log(`Name: ${object.name}`);
                 console.log(`Confidence: ${object.score}`);
+                if(found) return;
 
                 const foundItems = this.getScavengerItems(object.name);
                 if(foundItems.length > 0) {
                     for(let foundItem of foundItems) {
                         if(foundItem.name == client.itemQueue[0].name) {
+                            console.log(client.user.name + ' found ' + foundItem.name);
                             client.completedItems.push(foundItem);
-                            foundItems.push(foundItem);
+                            filteredItems.push(foundItem);
+                            client.itemQueue.shift();
+                            client.score += 1;
+                            
+                            found = true;
+                            break;
+                        } else {
+                            console.log('did not match queue item.');
                         }
                     }
+                } else {
+                    console.log('found items were empty.');
                 }
             });
 
-            if(foundItems.length > 0) {
+            if(filteredItems.length > 0) {
                 this.io.emit('update-state', this.getGameState());
                 this.io.emit('player-successful-scan', {
                     player: client.user,
-                    items: foundItems
+                    items: filteredItems
                 });
                 client.emit('scan-success', {
-                    items: foundItems
+                    items: filteredItems
                 });
                 client.emit('update-user', {
                     user: this.getClientboundPlayerData(client)
                 });
+                console.log('new user data:', this.getClientboundPlayerData(client));
             } else {
                 client.emit('scan-failure', {});
                 console.log('scan failure.');

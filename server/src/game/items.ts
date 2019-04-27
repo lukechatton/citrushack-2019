@@ -17,6 +17,6 @@ itemList.push(
     {
         name: 'Computer',
         points: 1,
-        tags: ['computer', 'laptop', 'monitor', 'screen']
+        tags: ['computer keyboard', 'laptop', 'monitor', 'computer screen']
     }
 )

@@ -62,6 +62,6 @@ const styles = StyleSheet.create({
         opacity: 0.2
     },
     tickComplete: {
-        backgroundColor: theme.green
+        backgroundColor: theme.green,
     }
 })
