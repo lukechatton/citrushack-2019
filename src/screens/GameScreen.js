@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
 import { RNCamera, FaceDetector } from 'react-native-camera';
 
 export default class extends React.Component {
@@ -16,7 +16,8 @@ export default class extends React.Component {
                     }}
                     style={styles.preview}
                     type={RNCamera.Constants.Type.back}
-                    flashMode={RNCamera.Constants.FlashMode.on}
+                    flashMode={RNCamera.Constants.FlashMode.off}
+                    captureAudio={false}
                     androidCameraPermissionOptions={{
                         title: 'Permission to use camera',
                         message: 'We need your permission to use your camera',
@@ -33,10 +34,18 @@ export default class extends React.Component {
                         console.log(barcodes);
                     }}
                 />
-                <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-                    <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.capture}>
-                        <Text style={{ fontSize: 14 }}> SNAP </Text>
-                    </TouchableOpacity>
+
+                <View style={styles.overlayWrapper}>
+                    <SafeAreaView style={{flex: 1}}>
+                        <View style={{flex: 1}} />
+                        <View style={styles.bottomToolbar}>
+                            <View style={{flex: 1}} />
+                            <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.capture}>
+                                <Text style={{ fontSize: 14 }}> SNAP </Text>
+                            </TouchableOpacity>
+                            <View style={{flex: 1}} />
+                        </View>
+                    </SafeAreaView>
                 </View>
             </View>
         )
@@ -71,4 +80,13 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         margin: 20,
     },
+    overlayWrapper: {
+        position: 'absolute',
+        height: Dimensions.get('window').height,
+        width: Dimensions.get('window').width
+    },
+    bottomToolbar: {
+        flexDirection: 'row',
+        padding: 10
+    }
 });
