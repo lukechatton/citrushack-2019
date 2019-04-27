@@ -9,7 +9,6 @@ const ITEM_COUNT = 5;
 const GAME_LENGTH = 3 * 60 * 1000;
 
 export class GameController {
-    players: GamePlayer[] = [];
     items: ScavengerItem[] = [];
     startedAt: number;
     endsAt: number;
@@ -79,12 +78,8 @@ export class GameController {
                             
                             found = true;
                             break;
-                        } else {
-                            console.log('did not match queue item.');
                         }
                     }
-                } else {
-                    console.log('found items were empty.');
                 }
             });
 
@@ -103,7 +98,6 @@ export class GameController {
                 console.log('new user data:', this.getClientboundPlayerData(client));
             } else {
                 client.emit('scan-failure', {});
-                console.log('scan failure.');
             }
         });
 
@@ -132,20 +126,30 @@ export class GameController {
 
     getGameState() {
         let topPlayer: GamePlayer;
-        if(this.players.length > 0) {
-            for(let player of this.players) {
+        if(connectionController.players.length > 0) {
+            for(let player of connectionController.players) {
                 if(!topPlayer || player.score > topPlayer.score) {
-                    topPlayer = player;
+                    if(player.score > 0) {
+                        topPlayer = player;
+                    }
                 }
             }
         }
 
-        return {
-            players: this.players,
+        let players = [];
+        for(let player of connectionController.players) {
+            players.push(this.getClientboundPlayerData(player));
+        }
+
+        let data = {
+            players: players,
             items: this.items,
-            topPlayer: topPlayer,
+            topPlayer: topPlayer ? this.getClientboundPlayerData(topPlayer) : null,
             endsAt: this.endsAt
         }
+        console.log('game state:', data);
+
+        return data;
     }
 
     getClientboundPlayerData(player: GamePlayer) {

@@ -8,6 +8,7 @@ import { GameContext } from '../providers/GameProvider';
 import { theme } from '../theme';
 import ProgressBar from '../components/ProgressBar';
 import Countdown from '../components/Countdown';
+import TopPlayer from '../components/TopPlayer';
 
 export default class extends React.Component {
     constructor(props) {
@@ -77,6 +78,7 @@ class Inner extends React.Component {
                     onGoogleVisionBarcodesDetected={({ barcodes }) => {
                         console.log(barcodes);
                     }}
+                    playSoundOnCapture={true}
                 />
 
                 <View style={styles.overlayWrapper}>
@@ -86,8 +88,8 @@ class Inner extends React.Component {
                         
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <View style={{flex: 1}} />
-                            <View style={{flex: 1}} />
-                            <View style={{flex: 3}} />
+                            <TopPlayer />
+                            <View style={{flex: 4}} />
                             <Countdown endTime={this.props.gameContext.state.game.endsAt} />
                             <View style={{flex: 1}} />
                         </View>
