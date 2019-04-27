@@ -11,6 +11,7 @@ const ITEM_COUNT = 5;
 export class GameController {
     players: GamePlayer[] = [];
     items: ScavengerItem[] = [];
+    startedAt: number;
 
     constructor(
         public io: SocketIO.Server
@@ -126,9 +127,19 @@ export class GameController {
     }
 
     getGameState() {
+        let topPlayer: GamePlayer;
+        if(this.players.length > 0) {
+            for(let player of this.players) {
+                if(!topPlayer || player.score > topPlayer.score) {
+                    topPlayer = player;
+                }
+            }
+        }
+
         return {
             players: this.players,
-            items: this.items
+            items: this.items,
+            topPlayer: topPlayer
         }
     }
 
