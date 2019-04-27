@@ -3,6 +3,8 @@ import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationService } from '../providers/NavigationService';
 import { GameContext } from '../providers/GameProvider';
+import io from 'socket.io-client';
+import { SOCKET_URL } from 'react-native-dotenv';
 
 export default class extends React.Component {
     constructor(props) {

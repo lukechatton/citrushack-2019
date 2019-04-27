@@ -1,12 +1,27 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
 import { RNCamera, FaceDetector } from 'react-native-camera';
+import { GameContext } from '../providers/GameProvider';
 
 export default class extends React.Component {
     constructor(props) {
         super(props);
     }
 
+    render() {
+        return (
+            <GameContext.Consumer>
+                {gameContext => (
+                    <Inner gameContext={gameContext} />
+                )}
+            </GameContext.Consumer>
+        )
+    }
+    
+}
+
+class Inner extends React.Component {
+    
     render() {
         return (
             <View style={styles.container}>
@@ -53,9 +68,10 @@ export default class extends React.Component {
 
     takePicture = async function () {
         if (this.camera) {
-            const options = { quality: 0.5, base64: true };
-            const data = await this.camera.takePictureAsync(options);
-            console.log(data.uri);
+            const data = await this.camera.takePictureAsync({ quality: 0.5, base64: true });
+            console.log('image response:', data);
+
+            this.props.gameContext.state.socket.emit('scan-image', data.uri);
         }
     };
 }
