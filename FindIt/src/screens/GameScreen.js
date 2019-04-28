@@ -91,7 +91,7 @@ class Inner extends React.Component {
     
     render() {
         let currentItem = '';
-        if(this.props.gameContext.state.user.itemQueue && this.props.gameContext.state.user.itemQueue.length > 0) {
+        if(this.props.gameContext.state.user && this.props.gameContext.state.user.itemQueue && this.props.gameContext.state.user.itemQueue.length > 0) {
             currentItem = this.props.gameContext.state.user.itemQueue[0];
         }
 
