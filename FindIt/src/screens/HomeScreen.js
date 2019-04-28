@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Dimensions } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationService } from '../providers/NavigationService';
 import { GameContext } from '../providers/GameProvider';
@@ -27,6 +27,10 @@ export default class extends React.Component {
 class Inner extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            name: ''
+        }
     }
 
     componentDidMount() {
@@ -48,6 +52,22 @@ class Inner extends React.Component {
                     <TouchableOpacity onPress={this.onStart}>
                         <Text>Start</Text>
                     </TouchableOpacity>
+
+                    <View style={{flexDirection: 'row'}}>
+                        <TextInput 
+                            placeholder='Pick a username'
+                            // leftIcon={{ type: 'font-awesome', name: 'phone' }}
+                            value={this.state.name}
+                            onChangeText={(name) => this.setState({name: name.toString()})}
+                            style={styles.textInput}
+                        />
+                    </View>
+                    <View style={{flexDirection: 'row'}}>
+                        <TouchableOpacity onPress={this.onUpdateUsername} style={styles.getStartedButton}>
+                            <Text style={styles.getStartedText}>Change Name</Text>
+                        </TouchableOpacity>
+                    </View>
+
                     <View style={{flex: 1}} />
                 </SafeAreaView>
                 {/* <TouchableOpacity onPress={() => NavigationService.navigate('Game') }>
@@ -61,6 +81,12 @@ class Inner extends React.Component {
 
     onStart = () => {
         this.props.gameContext.state.socket.emit('trigger-start');
+    }
+
+    onUpdateUsername = () => {
+        if(this.props.gameContext.state.socket) {
+            this.props.gameContext.state.socket.emit('change-username', this.state.name);
+        }
     }
 }
 
@@ -91,5 +117,29 @@ const styles = StyleSheet.create({
     testButtonText: {
         color: '#fff',
         fontWeight: '600'
-    }
+    },
+    textInput: {
+        paddingVertical: 18,
+        backgroundColor: '#eee',
+        color: '#111',
+        borderRadius: 45,
+        fontSize: 18,
+        fontWeight: '700',
+        textAlign: 'center',
+        width: Dimensions.get('window').width * 0.8
+    },
+    getStartedButton: {
+        // width: 300,
+        paddingVertical: 18,
+        backgroundColor: '#31ae4d',
+        borderRadius: 45,
+        marginTop: 20,
+        width: Dimensions.get('window').width * 0.8
+    },
+    getStartedText: {
+        color: '#e8e8e8',
+        fontSize: 18,
+        fontWeight: '700',
+        textAlign: 'center'
+    },
 });

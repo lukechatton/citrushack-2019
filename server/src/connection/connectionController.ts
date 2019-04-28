@@ -4,6 +4,7 @@ import { GameController } from "../game/gameController";
 export class ConnectionController {
     players: GamePlayer[] = [];
     gameController: GameController;
+    io: SocketIO.Server;
 
     constructor() {
 
@@ -11,6 +12,7 @@ export class ConnectionController {
 
     async init(io: SocketIO.Server) {
         console.log('connection controller init.');
+        this.io = io;
         
         this.gameController = new GameController(io);
 
@@ -23,6 +25,8 @@ export class ConnectionController {
                 client.score = 0;
                 client.completedItems = [];
                 this.players.push(client);
+
+                this.emitPlayerList();
 
                 console.log(client.user.name + ' connected (' + this.players.length + ' total).');
 
@@ -44,6 +48,21 @@ export class ConnectionController {
                 await this.gameController.start();
                 console.log('Started game!');
             });
+
+            client.on('change-username', name => {
+                client.user.name = name;
+                this.emitPlayerList();
+            });
+        });
+    }
+
+    emitPlayerList() {
+        let response = [];
+        for(let player of this.players) {
+            response.push(player.user);
+        }
+        this.io.emit('player-list', {
+            players: response
         });
     }
 }
