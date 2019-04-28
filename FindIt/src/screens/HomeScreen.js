@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TextInput, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, Dimensions, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationService } from '../providers/NavigationService';
 import { GameContext } from '../providers/GameProvider';
@@ -46,60 +46,60 @@ class Inner extends React.Component {
     render() {
         let players = [];
         if(this.props.gameContext.state.playerList) {
+            let i = 0;
             for(let player of this.props.gameContext.state.playerList.players) {
                 players.push(
-                    <Text style={styles.playerListName}>{player.name}</Text>
-                )
+                    <Text style={styles.playerListName} key={i}>{player.name}</Text>
+                );
+                i++;
             }
         }
 
         return (
             <View style={styles.wrapper}>
-                <SafeAreaView style={{flex: 1}}>
-                    <View style={{flexDirection: 'row'}}>
-                        <View style={{flex: 1}} />
-                        <TouchableOpacity onPress={this.onStart}>
-                            <Image style={styles.startImage} source={require('../assets/img/start.png')} />
-                        </TouchableOpacity>
-                    </View>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={styles.container}>
+                    <SafeAreaView style={{flex: 1}}>
+                        <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={20} style={styles.container}>
+                            <View style={{flexDirection: 'row'}}>
+                                <View style={{flex: 1}} />
+                                <TouchableOpacity onPress={this.onStart}>
+                                    <Image style={styles.startImage} source={require('../assets/img/start.png')} />
+                                </TouchableOpacity>
+                            </View>
 
-                    <View style={styles.container}>
-                        <View style={{flex: 1}} />
-                        <Text style={styles.brand}>find it.</Text>
-                        <Text style={styles.brandSubtext}>scavenge the world</Text>
-                        <View style={{flex: 3}} />
-                    </View>
+                            <View style={styles.container}>
+                                <View style={{flex: 1}} />
+                                <Text style={styles.brand}>find it.</Text>
+                                <Text style={styles.brandSubtext}>scavenge the world</Text>
+                                <View style={{flex: 3}} />
+                            </View>
 
-                    <View style={styles.container}>
-                        {players}
-                    </View>
+                            <View style={styles.container}>
+                                {players}
+                            </View>
 
-                    <View style={{flex: 1}} />
+                            <View style={{flex: 1}} />
 
-                    <View style={styles.container}>
-                        <View style={{flexDirection: 'row'}}>
-                            <TextInput 
-                                placeholder='Pick a username'
-                                // leftIcon={{ type: 'font-awesome', name: 'phone' }}
-                                value={this.state.name}
-                                onChangeText={(name) => this.setState({name: name.toString()})}
-                                style={styles.textInput}
-                            />
-                        </View>
-                        <View style={{flexDirection: 'row'}}>
-                            <TouchableOpacity onPress={this.onUpdateUsername} style={styles.getStartedButton}>
-                                <Text style={styles.getStartedText}>Change Name</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-                    <View style={{flex: 1}} />
-                </SafeAreaView>
-                {/* <TouchableOpacity onPress={() => NavigationService.navigate('Game') }>
-                    <View style={styles.testButton}>
-                        <Text style={styles.testButtonText}>Test Camera</Text>
-                    </View>
-                </TouchableOpacity> */}
+                            <View style={styles.container}>
+                                <View style={{flexDirection: 'row'}}>
+                                    <TextInput 
+                                        placeholder='Pick a username'
+                                        // leftIcon={{ type: 'font-awesome', name: 'phone' }}
+                                        value={this.state.name}
+                                        onChangeText={(name) => this.setState({name: name.toString()})}
+                                        style={styles.textInput}
+                                    />
+                                </View>
+                                <View style={{flexDirection: 'row'}}>
+                                    <TouchableOpacity onPress={this.onUpdateUsername} style={styles.getStartedButton}>
+                                        <Text style={styles.getStartedText}>Change Name</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                            <View style={{flex: 1}} />
+                        </KeyboardAvoidingView>
+                    </SafeAreaView>
+                </TouchableWithoutFeedback>
             </View>
         )
     }
@@ -179,7 +179,6 @@ const styles = StyleSheet.create({
     },
     startImage: {
         marginTop: 10, 
-        marginRight: 35, 
         width: 25,
         height: 25,
         opacity: 0.6
