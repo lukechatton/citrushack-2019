@@ -72,7 +72,7 @@ class Inner extends React.Component {
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={{flex: 1}}>
                     <SafeAreaView style={styles.container}>
                         <KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'position' : null} keyboardVerticalOffset={0} style={styles.container}>
-                            <View style={{flexDirection: 'row', marginTop: 0}}>
+                            <View style={{flexDirection: 'row', marginTop: 15}}>
                                 <TouchableOpacity onPress={this.onReconnectPress}>
                                     <Icon
                                         name='refresh'
