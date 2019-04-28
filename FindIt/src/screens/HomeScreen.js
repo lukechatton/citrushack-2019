@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, Dimensions } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationService } from '../providers/NavigationService';
 import { GameContext } from '../providers/GameProvider';
@@ -55,7 +55,7 @@ class Inner extends React.Component {
             <View style={styles.wrapper}>
                 <SafeAreaView style={{flex: 1}}>
                     <TouchableOpacity onPress={this.onStart}>
-                        <Text>Start</Text>
+                        <Image style={{marginTop: 10, marginLeft: 10, width: 25, height: 25}} source={require('../assets/img/start.png')} />
                     </TouchableOpacity>
 
                     <View style={styles.container}>
