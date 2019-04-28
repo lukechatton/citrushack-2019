@@ -1,9 +1,8 @@
 import React from 'react';
 import { 
-    View, Text, StyleSheet, Image, TextInput, Dimensions, Modal, TouchableHighlight, Alert, 
-    KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard
+    View, Text, StyleSheet, Image, TextInput, Dimensions, Modal, Alert, 
+    KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, TouchableOpacity
 } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationService } from '../providers/NavigationService';
 import { GameContext } from '../providers/GameProvider';
 import io from 'socket.io-client';
@@ -71,7 +70,7 @@ class Inner extends React.Component {
             <View style={styles.wrapper}>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={styles.container}>
                     <SafeAreaView style={{flex: 1}}>
-                        <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={20} style={styles.container}>
+                        <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={0} style={styles.container}>
                             <View style={{flexDirection: 'row', marginTop: 10}}>
                                 <TouchableOpacity onPress={this.onReconnectPress}>
                                     <Icon
@@ -122,14 +121,14 @@ class Inner extends React.Component {
                                     </TouchableOpacity>
                                 </View>
 
-                                <TouchableHighlight
-                                    style={{marginTop: 20}}
+                                <TouchableOpacity
+                                    style={{marginTop: 20, padding: 10, backgroundColor: '#eee'}}
                                     onPress={() => {
                                         this.setModalVisible(true);
                                     }}
                                 >
                                     <Text style={{color: theme.green}}>How to Play</Text>
-                                </TouchableHighlight>
+                                </TouchableOpacity>
                             </View>
                             <View style={{flex: 1}} />
                         </KeyboardAvoidingView>
@@ -152,14 +151,14 @@ class Inner extends React.Component {
                             <Text style={styles.helpText}>2. Be the first to find it all!</Text>
                         </View>
                         <View>
-                            <TouchableHighlight
+                            <TouchableOpacity
                                 onPress={() => {
                                 this.setModalVisible(!this.state.modalVisible);
                                 }}
                                 style={styles.hideModalButton}
                                 >
                                 <Text style={styles.hideModalText}>Hide Modal</Text>
-                            </TouchableHighlight>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </Modal>
