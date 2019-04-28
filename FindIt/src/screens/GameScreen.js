@@ -10,6 +10,7 @@ import ProgressBar from '../components/ProgressBar';
 import Countdown from '../components/Countdown';
 import TopPlayer from '../components/TopPlayer';
 import { Success1, Error1, Error2 } from '../providers/SoundService';
+import Countup from '../components/Countup';
 
 export default class extends React.Component {
     constructor(props) {
@@ -144,7 +145,7 @@ class Inner extends React.Component {
                             <View style={{flex: 1}} />
                             <TopPlayer />
                             <View style={{flex: 4}} />
-                            <Countdown endTime={this.props.gameContext.state.game.endsAt} />
+                            <Countup startTime={this.props.gameContext.state.game.startedAt} />
                             <View style={{flex: 1}} />
                         </View>
 
