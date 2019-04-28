@@ -7,6 +7,7 @@ import io from 'socket.io-client';
 import { SOCKET_URL } from 'react-native-dotenv';
 import { theme } from '../theme';
 import { SafeAreaView } from 'react-navigation';
+import { Icon } from 'react-native-elements'
 
 export default class extends React.Component {
     constructor(props) {
@@ -35,12 +36,16 @@ class Inner extends React.Component {
 
     componentDidMount() {
         if(!this.props.gameContext.state.socket) {
-            const socket = io(SOCKET_URL, {
-                transports: ['websocket'],
-                jsonp: false
-            });
-            this.props.gameContext.state.setSocket(socket);
+            this.connectSocket();
         }   
+    }
+
+    connectSocket() {
+        const socket = io(SOCKET_URL, {
+            transports: ['websocket'],
+            jsonp: false
+        });
+        this.props.gameContext.state.setSocket(socket);
     }
 
     render() {
@@ -60,10 +65,24 @@ class Inner extends React.Component {
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={styles.container}>
                     <SafeAreaView style={{flex: 1}}>
                         <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={20} style={styles.container}>
-                            <View style={{flexDirection: 'row'}}>
+                            <View style={{flexDirection: 'row', marginTop: 10}}>
+                                <TouchableOpacity onPress={this.onReconnectPress}>
+                                    <Icon
+                                        name='refresh'
+                                        color='#fff' 
+                                        size={20}
+                                        containerStyle={{opacity: 0.6}}
+                                    />
+                                </TouchableOpacity>
                                 <View style={{flex: 1}} />
                                 <TouchableOpacity onPress={this.onStart}>
-                                    <Image style={styles.startImage} source={require('../assets/img/start.png')} />
+                                    <Icon
+                                        name='play'
+                                        color='#fff' 
+                                        type='foundation'
+                                        size={20}
+                                        containerStyle={{opacity: 0.6}}
+                                    />
                                 </TouchableOpacity>
                             </View>
 
@@ -112,6 +131,14 @@ class Inner extends React.Component {
         if(this.props.gameContext.state.socket) {
             this.props.gameContext.state.socket.emit('change-username', this.state.name);
         }
+    }
+
+    onReconnectPress = () => {
+        if(this.props.gameContext.state.socket) {
+            this.props.gameContext.state.socket.disconnect();
+        }
+
+        this.connectSocket();
     }
 }
 
