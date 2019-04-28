@@ -120,7 +120,7 @@ class Inner extends React.Component {
                                         <Text style={styles.getStartedText}>Change Name</Text>
                                     </TouchableOpacity>
                                 </View>
-
+                
                                 <TouchableOpacity
                                     style={{marginTop: 20, padding: 10, backgroundColor: '#eee'}}
                                     onPress={() => {
@@ -140,7 +140,7 @@ class Inner extends React.Component {
                     transparent={false}
                     visible={this.state.modalVisible}
                 >
-                    <View style={{flex: 1, flexDirection: 'column', backgroundColor: theme.green}}>
+                    <View style={{flex: 1, flexDirection: 'column', backgroundColor: theme.background}}>
                         <View style={{marginTop: 50}}>
                             <Text style={styles.howToTitle}>How to Play</Text>
                         </View>
@@ -253,18 +253,18 @@ const styles = StyleSheet.create({
         flex: 1,
         borderRadius: 45,
         paddingVertical: 18,
-        backgroundColor: '#fff',
+        backgroundColor: '#31ae4d',
         width: Dimensions.get('window').width * 0.8
     },
     hideModalText: {
-        color: theme.green,
+        color: '#fff',
         fontSize: 18,
         fontWeight: '700',
         textAlign: 'center'
     },
     helpText: {
         color: '#fff',
-        fontSize: 24,
+        fontSize: 18,
         fontWeight: '700',
         textAlign: 'center',
     },
