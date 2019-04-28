@@ -61,7 +61,7 @@ class Inner extends React.Component {
                 this.successOpacity = new Animated.Value(0);
                 setTimeout(() => {
                     this.successX = new Animated.Value(0);
-                })
+                }, 200);
             }, 1500);
         });
 
@@ -81,7 +81,7 @@ class Inner extends React.Component {
                 this.failureOpacity = new Animated.Value(0);
                 setTimeout(() => {
                     this.failureX = new Animated.Value(0);
-                })
+                }, 200);
             }, 1500);
         });
     }

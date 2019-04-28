@@ -53,7 +53,7 @@ export class GameController {
         client.on('scan-image', async (image) => {
             if(client.itemQueue.length == 0) return; //already completed
 
-            if(Date.now() - client.lastScanAt < 800) { //cooldown
+            if(Date.now() - client.lastScanAt < 1500) { //cooldown
                 return;
             }
             client.lastScanAt = Date.now();
