@@ -19,11 +19,11 @@ itemList.push(
         points: 1,
         tags: ['computer keyboard', 'laptop', 'monitor', 'computer screen']
     },
-    {
-        name: 'Bottle',
-        points: 1,
-        tags: ['bottle', 'water bottle', 'plastic bottle']
-    },
+    // {
+    //     name: 'Bottle',
+    //     points: 1,
+    //     tags: ['bottle', 'water bottle', 'plastic bottle']
+    // },
     {
         name: 'Phone',
         points: 1,
