@@ -10,6 +10,7 @@ import ProgressBar from '../components/ProgressBar';
 import Countdown from '../components/Countdown';
 import TopPlayer from '../components/TopPlayer';
 import { Success1, Error1, Error2 } from '../providers/SoundService';
+import Countup from '../components/Countup';
 
 export default class extends React.Component {
     constructor(props) {
@@ -37,6 +38,8 @@ class Inner extends React.Component {
 
         this.failureOpacity = new Animated.Value(0);
         this.failureX = new Animated.Value(0);
+
+        this.lastScan = 0;
 
         this.state = {
             pictureTakenAt: 0,
@@ -88,7 +91,7 @@ class Inner extends React.Component {
     
     render() {
         let currentItem = '';
-        if(this.props.gameContext.state.user.itemQueue && this.props.gameContext.state.user.itemQueue.length > 0) {
+        if(this.props.gameContext.state.user && this.props.gameContext.state.user.itemQueue && this.props.gameContext.state.user.itemQueue.length > 0) {
             currentItem = this.props.gameContext.state.user.itemQueue[0];
         }
 
@@ -142,7 +145,7 @@ class Inner extends React.Component {
                             <View style={{flex: 1}} />
                             <TopPlayer />
                             <View style={{flex: 4}} />
-                            <Countdown endTime={this.props.gameContext.state.game.endsAt} />
+                            <Countup startTime={this.props.gameContext.state.game.startedAt} />
                             <View style={{flex: 1}} />
                         </View>
 
@@ -164,13 +167,19 @@ class Inner extends React.Component {
     }
 
     takePicture = async function () {
+        if(Date.now() - this.lastScan < 2000) {
+            return;
+        }
+        this.lastScan = Date.now();
+
         if (this.camera) {
+            
             const data = await this.camera.takePictureAsync({ quality: 0.8, base64: true });
             console.log('image response:', data);
 
             this.props.gameContext.state.socket.emit('scan-image', data.base64);
 
-            this.setState({ pictureTakenAt: Date.now() })
+            this.setState({ pictureTakenAt: Date.now() });
         }
     };
 

@@ -1,12 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TextInput, Dimensions, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { 
+    View, Text, StyleSheet, Image, ImageBackground, TextInput, Dimensions, Modal, 
+    KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, TouchableOpacity,
+    Platform
+} from 'react-native';
 import { NavigationService } from '../providers/NavigationService';
 import { GameContext } from '../providers/GameProvider';
 import io from 'socket.io-client';
 import { SOCKET_URL } from 'react-native-dotenv';
 import { theme } from '../theme';
 import { SafeAreaView } from 'react-navigation';
+import { Icon } from 'react-native-elements'
 
 export default class extends React.Component {
     constructor(props) {
@@ -29,18 +33,26 @@ class Inner extends React.Component {
         super(props);
 
         this.state = {
-            name: ''
+            name: '',
+            modalVisible: false,
         }
     }
 
     componentDidMount() {
         if(!this.props.gameContext.state.socket) {
-            const socket = io(SOCKET_URL, {
-                transports: ['websocket'],
-                jsonp: false
-            });
-            this.props.gameContext.state.setSocket(socket);
+            this.connectSocket();
         }   
+    }
+
+    connectSocket() {
+        const socket = io(SOCKET_URL, {
+            transports: ['websocket'],
+            jsonp: false
+        });
+        this.props.gameContext.state.setSocket(socket);
+    }
+    setModalVisible(visible) {
+        this.setState({modalVisible: visible});
     }
 
     render() {
@@ -57,20 +69,37 @@ class Inner extends React.Component {
 
         return (
             <View style={styles.wrapper}>
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={styles.container}>
-                    <SafeAreaView style={{flex: 1}}>
-                        <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={20} style={styles.container}>
-                            <View style={{flexDirection: 'row'}}>
+            <ImageBackground resizeMode="repeat" source={require('../assets/img/constellation.png')} style={styles.backgroundImage}>
+            
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={{flex: 1}}>
+                    <SafeAreaView style={styles.container}>
+                        <KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'position' : null} keyboardVerticalOffset={0} style={styles.container}>
+                        {/* <Image source={require('../assets/img/Endless-Constellation.svg')} styles={styles.backgroundImage}></Image> */}
+                            <View style={{flexDirection: 'row', marginTop: 15}}>
+                                <TouchableOpacity onPress={this.onReconnectPress}>
+                                    <Icon
+                                        name='refresh'
+                                        color='#fff' 
+                                        size={20}
+                                        containerStyle={{opacity: 0.6, padding: 5}}
+                                    />
+                                </TouchableOpacity>
                                 <View style={{flex: 1}} />
                                 <TouchableOpacity onPress={this.onStart}>
-                                    <Image style={styles.startImage} source={require('../assets/img/start.png')} />
+                                    <Icon
+                                        name='play'
+                                        color='#fff' 
+                                        type='foundation'
+                                        size={20}
+                                        containerStyle={{opacity: 0.6, padding: 5}}
+                                    />
                                 </TouchableOpacity>
                             </View>
 
                             <View style={styles.container}>
                                 <View style={{flex: 1}} />
-                                <Text style={styles.brand}>find it.</Text>
-                                <Text style={styles.brandSubtext}>scavenge the world</Text>
+                                <Text style={styles.brand}>Find it!</Text>
+                                <Text style={styles.brandSubtext}>Scavenge the world</Text>
                                 <View style={{flex: 3}} />
                             </View>
 
@@ -95,11 +124,55 @@ class Inner extends React.Component {
                                         <Text style={styles.getStartedText}>Change Name</Text>
                                     </TouchableOpacity>
                                 </View>
+                                
+                                {/* <View style={{marginTop: 60}}>
+                                    <TouchableOpacity  onPress={() => this.setModalVisible(true)}>
+                                        <Text>test</Text>
+                                    </TouchableOpacity>
+                                </View>  */}
+
+                                {/* <TouchableOpacity
+                                    style={{marginTop: 20, padding: 10, backgroundColor: '#eee'}}
+                                    onPress={() => {
+                                        this.setModalVisible(true);
+                                        console.log('pressed!');
+                                    }}
+                                >
+                                    <Text style={{color: theme.green}}>How to Play</Text>
+                                </TouchableOpacity> */}
                             </View>
                             <View style={{flex: 1}} />
                         </KeyboardAvoidingView>
                     </SafeAreaView>
                 </TouchableWithoutFeedback>
+
+                <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={this.state.modalVisible}
+                    // visible={true}
+                >
+                    <View style={{flex: 1, flexDirection: 'column', backgroundColor: theme.background}}>
+                        <View style={{marginTop: 50}}>
+                            <Text style={styles.howToTitle}>How to Play</Text>
+                        </View>
+                        <View style={styles.modalContainer}>
+                            <Text style={styles.helpText}>1. Take a picture of your assigned objects.</Text>
+                            <Text style={styles.helpText}>2. Be the first to find it all!</Text>
+                        </View>
+                        <View>
+                            <TouchableOpacity
+                                onPress={() => {
+                                this.setModalVisible(false);
+                                }}
+                                style={styles.hideModalButton}
+                                >
+                                <Text style={styles.hideModalText}>Hide Modal</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
+                </ImageBackground>
             </View>
         )
     }
@@ -113,6 +186,14 @@ class Inner extends React.Component {
             this.props.gameContext.state.socket.emit('change-username', this.state.name);
         }
     }
+
+    onReconnectPress = () => {
+        if(this.props.gameContext.state.socket) {
+            this.props.gameContext.state.socket.disconnect();
+        }
+
+        this.connectSocket();
+    }
 }
 
 const styles = StyleSheet.create({
@@ -125,6 +206,10 @@ const styles = StyleSheet.create({
         // justifyContent: 'center',
         alignItems: 'center',
     },
+    modalContainer: {
+        flex: 1,
+        alignItems: 'center',
+    },
     brand: {
         fontSize: 60,
         textAlign: 'center',
@@ -135,7 +220,8 @@ const styles = StyleSheet.create({
     brandSubtext: {
         fontSize: 25,
         textAlign: 'center',
-        color: '#918E8E'
+        //color: '#918E8E'
+        color: '#e4e4e4'
     },
     testButton: {
         padding: 10,
@@ -177,10 +263,42 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         marginBottom: 5
     },
+    hideModalButton: {
+        flex: 1,
+        borderRadius: 45,
+        paddingVertical: 18,
+        backgroundColor: '#31ae4d',
+        width: Dimensions.get('window').width * 0.8
+    },
+    hideModalText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: '700',
+        textAlign: 'center'
+    },
+    helpText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: '700',
+        textAlign: 'center',
+    },
+    howToTitle: {
+        color: '#fff',
+        fontSize: 24,
+        fontWeight: '700',
+        textAlign: 'center'
+    },
     startImage: {
         marginTop: 10, 
         width: 25,
         height: 25,
         opacity: 0.6
+    },
+    backgroundImage: {
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        flex: 1,
+        //width: Dimensions.get('window').width * 1.5,
+        //height: Dimensions.get('window').height * 1.5,  
     }
 });

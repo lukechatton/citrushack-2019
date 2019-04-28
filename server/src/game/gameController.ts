@@ -169,7 +169,8 @@ export class GameController {
             players: players,
             items: this.items,
             topPlayer: topPlayer ? this.getClientboundPlayerData(topPlayer) : null,
-            endsAt: this.endsAt
+            endsAt: this.endsAt,
+            startedAt: this.startedAt
         }
         console.log('game state:', data);
 
