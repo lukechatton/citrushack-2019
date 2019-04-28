@@ -50,8 +50,10 @@ export class ConnectionController {
             });
 
             client.on('change-username', name => {
-                client.user.name = name;
-                this.emitPlayerList();
+                if(client.user) {
+                    client.user.name = name;
+                    this.emitPlayerList();
+                }
             });
         });
     }

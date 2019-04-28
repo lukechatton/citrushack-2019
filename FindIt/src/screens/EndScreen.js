@@ -31,7 +31,7 @@ class Inner extends React.Component {
 
                     <View style={{flex: 1}} />
 
-                    <Text style={styles.statText}>Luke completed the hunt in <Text style={{color: theme.green}}>{seconds} seconds</Text></Text>
+                    <Text style={styles.statText}>{this.props.gameContext.state.end.winner.user.name} completed the hunt in <Text style={{color: theme.green}}>{seconds} seconds</Text></Text>
 
                     <View style={{flex: 3}} />
 
