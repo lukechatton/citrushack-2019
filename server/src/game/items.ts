@@ -7,7 +7,7 @@ itemList.push(
     {
         name: 'Chair',
         points: 1,
-        tags: ['chair', 'office chair', 'seat']
+        tags: ['chair', 'office chair', 'seat', 'armrest']
     },
     /*{
         name: 'Table',
