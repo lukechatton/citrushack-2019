@@ -52,17 +52,22 @@ class Inner extends React.Component {
         }
 
         return (
-            <View style={styles.container}>
-                <SafeAreaView style={styles.container}>
-                    <View style={{flex: 1}} />
-                    <Text style={styles.brand}>find it.</Text>
-                    <Text style={styles.brandSubtext}>scavenge the world</Text>
-                    <View style={{flex: 3}} />
+            <View style={styles.wrapper}>
+                <SafeAreaView style={{flex: 1}}>
                     <TouchableOpacity onPress={this.onStart}>
                         <Text>Start</Text>
                     </TouchableOpacity>
 
-                    {players}
+                    <View style={styles.container}>
+                        <View style={{flex: 1}} />
+                        <Text style={styles.brand}>find it.</Text>
+                        <Text style={styles.brandSubtext}>scavenge the world</Text>
+                        <View style={{flex: 3}} />
+                    </View>
+
+                    <View style={styles.container}>
+                        {players}
+                    </View>
 
                     <View style={{flex: 1}} />
 
@@ -104,11 +109,14 @@ class Inner extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    wrapper: {
+        backgroundColor: '#2f2f3c',
+        flex: 1
+    },
     container: {
         flex: 1,
         // justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#2f2f3c',
     },
     brand: {
         fontSize: 60,
@@ -160,6 +168,6 @@ const styles = StyleSheet.create({
         opacity: 0.8,
         fontSize: 16,
         fontWeight: '400',
-        marginBottom: 10
+        marginBottom: 5
     }
 });
