@@ -165,7 +165,7 @@ class Inner extends React.Component {
 
     takePicture = async function () {
         if (this.camera) {
-            const data = await this.camera.takePictureAsync({ quality: 0.5, base64: true });
+            const data = await this.camera.takePictureAsync({ quality: 0.8, base64: true });
             console.log('image response:', data);
 
             this.props.gameContext.state.socket.emit('scan-image', data.base64);

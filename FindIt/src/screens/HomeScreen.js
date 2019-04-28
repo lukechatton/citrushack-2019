@@ -45,6 +45,10 @@ class Inner extends React.Component {
                     <Text style={styles.brand}>find it.</Text>
                     <Text style={styles.brandSubtext}>scavenge the world</Text>
                     <View style={{flex: 3}} />
+                    <TouchableOpacity onPress={this.onStart}>
+                        <Text>Start</Text>
+                    </TouchableOpacity>
+                    <View style={{flex: 1}} />
                 </SafeAreaView>
                 {/* <TouchableOpacity onPress={() => NavigationService.navigate('Game') }>
                     <View style={styles.testButton}>
@@ -53,6 +57,10 @@ class Inner extends React.Component {
                 </TouchableOpacity> */}
             </View>
         )
+    }
+
+    onStart = () => {
+        this.props.gameContext.state.socket.emit('trigger-start');
     }
 }
 
