@@ -1,6 +1,6 @@
 import React from 'react';
 import { 
-    View, Text, StyleSheet, Image, TextInput, Dimensions, Modal, Alert, 
+    View, Text, StyleSheet, Image, ImageBackground, TextInput, Dimensions, Modal, 
     KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, TouchableOpacity,
     Platform
 } from 'react-native';
@@ -69,9 +69,12 @@ class Inner extends React.Component {
 
         return (
             <View style={styles.wrapper}>
+            {/* <ImageBackground source={require('../assets/img/check1.png')} style={styles.backgroundImage}> */}
+            
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={{flex: 1}}>
                     <SafeAreaView style={styles.container}>
                         <KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'position' : null} keyboardVerticalOffset={0} style={styles.container}>
+                        {/* <Image source={require('../assets/img/Endless-Constellation.svg')} styles={styles.backgroundImage}></Image> */}
                             <View style={{flexDirection: 'row', marginTop: 0}}>
                                 <TouchableOpacity onPress={this.onReconnectPress}>
                                     <Icon
@@ -169,6 +172,7 @@ class Inner extends React.Component {
                         </View>
                     </View>
                 </Modal>
+                {/* </ImageBackground> */}
             </View>
         )
     }
@@ -288,5 +292,10 @@ const styles = StyleSheet.create({
         width: 25,
         height: 25,
         opacity: 0.6
+    },
+    backgroundImage: {
+        justifyContent: 'center', alignItems: 'center', flex: 1,
+        //width: Dimensions.get('window').width * 1.5,
+        //height: Dimensions.get('window').height * 1.5,  
     }
 });
