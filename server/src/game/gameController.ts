@@ -30,6 +30,7 @@ export class GameController {
         for(let player of connectionController.players) {
             player.score = 0;
             player.completedItems = [];
+            player.lastScanAt = 0;
             this.handleClientEvents(player);
 
             let items = [...this.items];
@@ -51,6 +52,11 @@ export class GameController {
         
         client.on('scan-image', async (image) => {
             if(client.itemQueue.length == 0) return; //already completed
+
+            if(Date.now() - client.lastScanAt < 800) { //cooldown
+                return;
+            }
+            client.lastScanAt = Date.now();
 
             // https://github.com/googleapis/nodejs-vision/blob/master/samples/detect.js#L691
             const request = {
