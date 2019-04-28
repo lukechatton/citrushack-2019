@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TextInput, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, Dimensions, Modal, TouchableHighlight, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationService } from '../providers/NavigationService';
 import { GameContext } from '../providers/GameProvider';
@@ -29,7 +29,8 @@ class Inner extends React.Component {
         super(props);
 
         this.state = {
-            name: ''
+            name: '',
+            modalVisible: false,
         }
     }
 
@@ -39,6 +40,9 @@ class Inner extends React.Component {
             jsonp: false
         });
         this.props.gameContext.state.setSocket(socket);
+    }
+    setModalVisible(visible) {
+        this.setState({modalVisible: visible});
     }
 
     render() {
@@ -86,6 +90,43 @@ class Inner extends React.Component {
                                 <Text style={styles.getStartedText}>Change Name</Text>
                             </TouchableOpacity>
                         </View>
+                        
+                        <View style={{marginTop: 22}}>
+                            <Modal
+                            animationType="slide"
+                            transparent={false}
+                            visible={this.state.modalVisible}
+                            onRequestClose={() => {
+                                Alert.alert('Modal has been closed.');
+                            }}>
+                                <View style={{flex: 1, flexDirection: 'column', backgroundColor: theme.green}}>
+                                    <View style={{marginTop: 50}}>
+                                        <Text style={styles.howToTitle}>How to Play</Text>
+                                    </View>
+                                    <View style={styles.modalContainer}>
+                                        <Text style={styles.helpText}>1. Take a picture of your assigned objects.</Text>
+                                        <Text style={styles.helpText}>2. Be the first to find it all!</Text>
+                                    </View>
+                                    <View>
+                                        <TouchableHighlight
+                                            onPress={() => {
+                                            this.setModalVisible(!this.state.modalVisible);
+                                            }}
+                                            style={styles.hideModalButton}
+                                            >
+                                            <Text style={styles.hideModalText}>Hide Modal</Text>
+                                        </TouchableHighlight>
+                                    </View>
+                                </View>
+                            </Modal>
+
+                            <TouchableHighlight
+                            onPress={() => {
+                                this.setModalVisible(true);
+                            }}>
+                                <Text style={{color: theme.green}}>How to Play</Text>
+                            </TouchableHighlight>
+                        </View>
                     </View>
 
                     <View style={{flex: 1}} />
@@ -118,6 +159,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         // justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalContainer: {
+        flex: 1,
         alignItems: 'center',
     },
     brand: {
@@ -171,5 +216,30 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '400',
         marginBottom: 5
+    },
+    hideModalButton: {
+        flex: 1,
+        borderRadius: 45,
+        paddingVertical: 18,
+        backgroundColor: '#fff',
+        width: Dimensions.get('window').width * 0.8
+    },
+    hideModalText: {
+        color: theme.green,
+        fontSize: 18,
+        fontWeight: '700',
+        textAlign: 'center'
+    },
+    helpText: {
+        color: '#fff',
+        fontSize: 24,
+        fontWeight: '700',
+        textAlign: 'center',
+    },
+    howToTitle: {
+        color: '#fff',
+        fontSize: 24,
+        fontWeight: '700',
+        textAlign: 'center'
     }
 });
