@@ -121,47 +121,48 @@ class Inner extends React.Component {
                                         <Text style={styles.getStartedText}>Change Name</Text>
                                     </TouchableOpacity>
                                 </View>
-                                <View style={{marginTop: 22}}>
-                                    <Modal
-                                    animationType="slide"
-                                    transparent={false}
-                                    visible={this.state.modalVisible}
-                                    onRequestClose={() => {
-                                        Alert.alert('Modal has been closed.');
-                                    }}>
-                                        <View style={{flex: 1, flexDirection: 'column', backgroundColor: theme.green}}>
-                                            <View style={{marginTop: 50}}>
-                                                <Text style={styles.howToTitle}>How to Play</Text>
-                                            </View>
-                                            <View style={styles.modalContainer}>
-                                                <Text style={styles.helpText}>1. Take a picture of your assigned objects.</Text>
-                                                <Text style={styles.helpText}>2. Be the first to find it all!</Text>
-                                            </View>
-                                            <View>
-                                                <TouchableHighlight
-                                                    onPress={() => {
-                                                    this.setModalVisible(!this.state.modalVisible);
-                                                    }}
-                                                    style={styles.hideModalButton}
-                                                    >
-                                                    <Text style={styles.hideModalText}>Hide Modal</Text>
-                                                </TouchableHighlight>
-                                            </View>
-                                        </View>
-                                    </Modal>
 
-                                    <TouchableHighlight
+                                <TouchableHighlight
+                                    style={{marginTop: 20}}
                                     onPress={() => {
                                         this.setModalVisible(true);
-                                    }}>
-                                        <Text style={{color: theme.green}}>How to Play</Text>
-                                    </TouchableHighlight>
-                                </View>
+                                    }}
+                                >
+                                    <Text style={{color: theme.green}}>How to Play</Text>
+                                </TouchableHighlight>
                             </View>
                             <View style={{flex: 1}} />
                         </KeyboardAvoidingView>
                     </SafeAreaView>
                 </TouchableWithoutFeedback>
+
+                <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        Alert.alert('Modal has been closed.');
+                    }}>
+                    <View style={{flex: 1, flexDirection: 'column', backgroundColor: theme.green}}>
+                        <View style={{marginTop: 50}}>
+                            <Text style={styles.howToTitle}>How to Play</Text>
+                        </View>
+                        <View style={styles.modalContainer}>
+                            <Text style={styles.helpText}>1. Take a picture of your assigned objects.</Text>
+                            <Text style={styles.helpText}>2. Be the first to find it all!</Text>
+                        </View>
+                        <View>
+                            <TouchableHighlight
+                                onPress={() => {
+                                this.setModalVisible(!this.state.modalVisible);
+                                }}
+                                style={styles.hideModalButton}
+                                >
+                                <Text style={styles.hideModalText}>Hide Modal</Text>
+                            </TouchableHighlight>
+                        </View>
+                    </View>
+                </Modal>
             </View>
         )
     }
