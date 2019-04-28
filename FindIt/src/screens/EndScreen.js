@@ -26,17 +26,22 @@ class Inner extends React.Component {
         }
         let seconds = (time / 1000).toFixed(2);
 
+        let winnerName = 'John';
+        if(this.props.gameContext.state.end && this.props.gameContext.state.end) {
+            winnerName = this.props.gameContext.state.end.winner.user.name;
+        }
+
         return (
             <View style={styles.wrapper}>
                 <SafeAreaView style={{flex: 1}}>
                     <View style={{flex: 1}} />
 
-                    <Text style={styles.winnerName}>{this.props.gameContext.state.end.winner.user.name}</Text>
+                    <Text style={styles.winnerName}>{winnerName}</Text>
                     <Text style={styles.winnerSubtext}>Event Winner</Text>
 
                     <View style={{flex: 1}} />
 
-                    <Text style={styles.statText}>{this.props.gameContext.state.end.winner.user.name} completed the hunt in <Text style={{color: theme.green}}>{seconds} seconds</Text></Text>
+                    <Text style={styles.statText}>{winnerName} completed the hunt in <Text style={{color: theme.green}}>{seconds} seconds</Text></Text>
 
                     <View style={{flex: 3}} />
 
