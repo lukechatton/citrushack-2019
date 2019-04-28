@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationService } from '../providers/NavigationService';
 import { GameContext } from '../providers/GameProvider';
@@ -40,15 +40,15 @@ class Inner extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+                <View>
+                    <TouchableOpacity onPress={this.onStart}>
+                        <Image style={{width: 30, height: 30}} source={require('../assets/img/start.png')} />
+                    </TouchableOpacity>
+                </View>
                 <SafeAreaView style={styles.container}>
-                    <View style={{flex: 1}} />
                     <Text style={styles.brand}>find it.</Text>
                     <Text style={styles.brandSubtext}>scavenge the world</Text>
                     <View style={{flex: 3}} />
-                    <TouchableOpacity onPress={this.onStart}>
-                        <Text>Start</Text>
-                    </TouchableOpacity>
-                    <View style={{flex: 1}} />
                 </SafeAreaView>
                 {/* <TouchableOpacity onPress={() => NavigationService.navigate('Game') }>
                     <View style={styles.testButton}>
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
         // justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#2f2f3c',
+        flexDirection: 'column',
     },
     brand: {
         fontSize: 60,
@@ -91,5 +92,16 @@ const styles = StyleSheet.create({
     testButtonText: {
         color: '#fff',
         fontWeight: '600'
+    },
+    startButton: {
+        color: theme.green,
+        paddingRight: 15,
+        paddingLeft: 20,
+        paddingTop: 10,
+        paddingBottom: 10,
+        marginTop: 25,
+        borderRadius: 10,
+        borderColor: theme.green,
+        borderWidth: 3,
     }
 });
