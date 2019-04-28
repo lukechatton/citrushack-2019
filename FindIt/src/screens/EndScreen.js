@@ -20,7 +20,12 @@ export default class EndScreen extends React.Component {
 class Inner extends React.Component {
 
     render() {
-        let seconds = (this.props.gameContext.state.end.elapsedTime / 1000).toFixed(2)
+        let time = 32_123;
+        if(this.props.gameContext.state.end && this.props.gameContext.state.end.elapsedTime) {
+            time = this.props.gameContext.state.end.elapsedTime;
+        }
+        let seconds = (time / 1000).toFixed(2);
+
         return (
             <View style={styles.wrapper}>
                 <SafeAreaView style={{flex: 1}}>
