@@ -54,9 +54,12 @@ class Inner extends React.Component {
         return (
             <View style={styles.wrapper}>
                 <SafeAreaView style={{flex: 1}}>
-                    <TouchableOpacity onPress={this.onStart}>
-                        <Image style={{marginTop: 10, marginLeft: 10, width: 25, height: 25}} source={require('../assets/img/start.png')} />
-                    </TouchableOpacity>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={{flex: 1}} />
+                        <TouchableOpacity onPress={this.onStart}>
+                            <Image style={styles.startImage} source={require('../assets/img/start.png')} />
+                        </TouchableOpacity>
+                    </View>
 
                     <View style={styles.container}>
                         <View style={{flex: 1}} />
@@ -171,5 +174,12 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '400',
         marginBottom: 5
+    },
+    startImage: {
+        marginTop: 10, 
+        marginRight: 35, 
+        width: 25,
+        height: 25,
+        opacity: 0.6
     }
 });
