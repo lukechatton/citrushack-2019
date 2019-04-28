@@ -21,13 +21,22 @@ export class GameController {
 
     async start() {
         // randomly generate item list
+        // this.items = [];
+        // for (let i = 0; i < ITEM_COUNT; i++) {
+        //     this.items.push(itemList[Math.floor(Math.random() * itemList.length)]);
+        // }
+
         this.items = [];
-        for(let i = 0; i < ITEM_COUNT; i++) {
-            this.items.push(itemList[Math.floor(Math.random() * itemList.length)]);
+        let tempList = itemList
+        for (let i = 0; i < ITEM_COUNT; i++) {
+            let tempVal = Math.floor(Math.random() * tempList.length)
+            this.items.push(tempList[tempVal])
+            tempList.splice(tempVal, 1)
+            //this.items.push(itemList[Math.floor(Math.random() * itemList.length)]);
         }
 
         // reset player scores
-        for(let player of connectionController.players) {
+        for (let player of connectionController.players) {
             player.score = 0;
             player.completedItems = [];
             player.lastScanAt = 0;
@@ -49,11 +58,11 @@ export class GameController {
     }
 
     handleClientEvents(client: GamePlayer) {
-        
-        client.on('scan-image', async (image) => {
-            if(client.itemQueue.length == 0) return; //already completed
 
-            if(Date.now() - client.lastScanAt < 1500) { //cooldown
+        client.on('scan-image', async (image) => {
+            if (client.itemQueue.length == 0) return; //already completed
+
+            if (Date.now() - client.lastScanAt < 1500) { //cooldown
                 return;
             }
             client.lastScanAt = Date.now();
@@ -62,7 +71,7 @@ export class GameController {
             const request = {
                 image: { content: image } //base64
             }
-            const [response] = await visionClient.objectLocalization(request); 
+            const [response] = await visionClient.objectLocalization(request);
 
             const objects: [] = response.localizedObjectAnnotations;
             const filteredItems: ScavengerItem[] = [];
@@ -70,18 +79,18 @@ export class GameController {
             objects.forEach((object: any) => {
                 console.log(`Name: ${object.name}`);
                 console.log(`Confidence: ${object.score}`);
-                if(found) return;
+                if (found) return;
 
                 const foundItems = this.getScavengerItems(object.name);
-                if(foundItems.length > 0) {
-                    for(let foundItem of foundItems) {
-                        if(foundItem.name == client.itemQueue[0].name) {
+                if (foundItems.length > 0) {
+                    for (let foundItem of foundItems) {
+                        if (foundItem.name == client.itemQueue[0].name) {
                             console.log(client.user.name + ' found ' + foundItem.name);
                             client.completedItems.push(foundItem);
                             filteredItems.push(foundItem);
                             client.itemQueue.shift();
                             client.score += 1;
-                            
+
                             found = true;
                             break;
                         }
@@ -89,7 +98,7 @@ export class GameController {
                 }
             });
 
-            if(filteredItems.length > 0) {
+            if (filteredItems.length > 0) {
                 this.io.emit('update-state', this.getGameState());
                 this.io.emit('player-successful-scan', {
                     player: client.user,
@@ -111,9 +120,9 @@ export class GameController {
 
     getScavengerItems(name): ScavengerItem[] {
         let response = [];
-        for(let item of this.items) {
-            for(let tag of item.tags) {
-                if(tag == name.toLowerCase()) {
+        for (let item of this.items) {
+            for (let tag of item.tags) {
+                if (tag == name.toLowerCase()) {
                     response.push(item);
                 }
             }
@@ -122,8 +131,8 @@ export class GameController {
     }
 
     hasPlayerFoundItem(player: GamePlayer, item: ScavengerItem): boolean {
-        for(let item of player.completedItems) {
-            if(item.name == item.name) {
+        for (let item of player.completedItems) {
+            if (item.name == item.name) {
                 return true;
             }
         }
@@ -132,10 +141,10 @@ export class GameController {
 
     getGameState() {
         let topPlayer: GamePlayer;
-        if(connectionController.players.length > 0) {
-            for(let player of connectionController.players) {
-                if(!topPlayer || player.score > topPlayer.score) {
-                    if(player.score > 0) {
+        if (connectionController.players.length > 0) {
+            for (let player of connectionController.players) {
+                if (!topPlayer || player.score > topPlayer.score) {
+                    if (player.score > 0) {
                         topPlayer = player;
                     }
                 }
@@ -143,7 +152,7 @@ export class GameController {
         }
 
         let players = [];
-        for(let player of connectionController.players) {
+        for (let player of connectionController.players) {
             players.push(this.getClientboundPlayerData(player));
         }
 
