@@ -98,8 +98,8 @@ class Inner extends React.Component {
 
                             <View style={styles.container}>
                                 <View style={{flex: 1}} />
-                                <Text style={styles.brand}>find it.</Text>
-                                <Text style={styles.brandSubtext}>scavenge the world</Text>
+                                <Text style={styles.brand}>Find it!</Text>
+                                <Text style={styles.brandSubtext}>Scavenge the world</Text>
                                 <View style={{flex: 3}} />
                             </View>
 
