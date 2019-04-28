@@ -1,5 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TextInput, Dimensions, Modal, TouchableHighlight, Alert, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
+import { 
+    View, Text, StyleSheet, Image, TextInput, Dimensions, Modal, TouchableHighlight, Alert, 
+    KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard
+} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationService } from '../providers/NavigationService';
 import { GameContext } from '../providers/GameProvider';
