@@ -1,7 +1,8 @@
 import React from 'react';
 import { 
     View, Text, StyleSheet, Image, TextInput, Dimensions, Modal, Alert, 
-    KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, TouchableOpacity
+    KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, TouchableOpacity,
+    Platform
 } from 'react-native';
 import { NavigationService } from '../providers/NavigationService';
 import { GameContext } from '../providers/GameProvider';
@@ -68,9 +69,9 @@ class Inner extends React.Component {
 
         return (
             <View style={styles.wrapper}>
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={styles.container}>
-                    <SafeAreaView style={{flex: 1}}>
-                        <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={0} style={styles.container}>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={{flex: 1}}>
+                    <SafeAreaView style={styles.container}>
+                        <KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'position' : null} keyboardVerticalOffset={0} style={styles.container}>
                             <View style={{flexDirection: 'row', marginTop: 10}}>
                                 <TouchableOpacity onPress={this.onReconnectPress}>
                                     <Icon
@@ -120,15 +121,22 @@ class Inner extends React.Component {
                                         <Text style={styles.getStartedText}>Change Name</Text>
                                     </TouchableOpacity>
                                 </View>
+                                
+                                {/* <View style={{marginTop: 60}}>
+                                    <TouchableOpacity  onPress={() => this.setModalVisible(true)}>
+                                        <Text>test</Text>
+                                    </TouchableOpacity>
+                                </View>  */}
 
-                                <TouchableOpacity
+                                {/* <TouchableOpacity
                                     style={{marginTop: 20, padding: 10, backgroundColor: '#eee'}}
                                     onPress={() => {
                                         this.setModalVisible(true);
+                                        console.log('pressed!');
                                     }}
                                 >
                                     <Text style={{color: theme.green}}>How to Play</Text>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
                             </View>
                             <View style={{flex: 1}} />
                         </KeyboardAvoidingView>
@@ -139,6 +147,7 @@ class Inner extends React.Component {
                     animationType="slide"
                     transparent={false}
                     visible={this.state.modalVisible}
+                    // visible={true}
                 >
                     <View style={{flex: 1, flexDirection: 'column', backgroundColor: theme.green}}>
                         <View style={{marginTop: 50}}>
@@ -151,7 +160,7 @@ class Inner extends React.Component {
                         <View>
                             <TouchableOpacity
                                 onPress={() => {
-                                this.setModalVisible(!this.state.modalVisible);
+                                this.setModalVisible(false);
                                 }}
                                 style={styles.hideModalButton}
                                 >
