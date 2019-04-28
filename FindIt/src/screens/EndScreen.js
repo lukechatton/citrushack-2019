@@ -20,17 +20,18 @@ export default class EndScreen extends React.Component {
 class Inner extends React.Component {
 
     render() {
+        let seconds = (this.props.gameContext.state.end.elapsedTime / 1000).toFixed(2)
         return (
             <View style={styles.wrapper}>
                 <SafeAreaView style={{flex: 1}}>
                     <View style={{flex: 1}} />
 
-                    <Text style={styles.winnerName}>Luke</Text>
+                    <Text style={styles.winnerName}>{this.props.gameContext.state.end.winner.user.name}</Text>
                     <Text style={styles.winnerSubtext}>Event Winner</Text>
 
                     <View style={{flex: 1}} />
 
-                    <Text style={styles.statText}>Luke completed the hunt in <Text style={{color: theme.green}}>84 seconds</Text></Text>
+                    <Text style={styles.statText}>Luke completed the hunt in <Text style={{color: theme.green}}>{seconds} seconds</Text></Text>
 
                     <View style={{flex: 3}} />
 

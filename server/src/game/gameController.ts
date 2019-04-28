@@ -12,6 +12,7 @@ export class GameController {
     items: ScavengerItem[] = [];
     startedAt: number;
     endsAt: number;
+    finishedTime: number;
 
     constructor(
         public io: SocketIO.Server
@@ -113,8 +114,10 @@ export class GameController {
                 console.log('new user data:', this.getClientboundPlayerData(client));
 
                 if(client.score >= 5) {
+                    this.finishedTime = Date.now();
                     this.io.emit('start-end', {
-                        winner: this.getClientboundPlayerData(client)
+                        winner: this.getClientboundPlayerData(client),
+                        elapsedTime: this.finishedTime - this.startedAt 
                     });
                 }
             } else {
