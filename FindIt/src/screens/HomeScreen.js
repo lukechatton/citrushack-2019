@@ -69,7 +69,7 @@ class Inner extends React.Component {
 
         return (
             <View style={styles.wrapper}>
-            {/* <ImageBackground source={require('../assets/img/check1.png')} style={styles.backgroundImage}> */}
+            <ImageBackground resizeMode="repeat" source={require('../assets/img/robots.png')} style={styles.backgroundImage}>
             
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={{flex: 1}}>
                     <SafeAreaView style={styles.container}>
@@ -172,7 +172,7 @@ class Inner extends React.Component {
                         </View>
                     </View>
                 </Modal>
-                {/* </ImageBackground> */}
+                </ImageBackground>
             </View>
         )
     }
@@ -294,7 +294,11 @@ const styles = StyleSheet.create({
         opacity: 0.6
     },
     backgroundImage: {
-        justifyContent: 'center', alignItems: 'center', flex: 1,
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        flex: 1,
+        height: 50,
+        width: 50,
         //width: Dimensions.get('window').width * 1.5,
         //height: Dimensions.get('window').height * 1.5,  
     }
