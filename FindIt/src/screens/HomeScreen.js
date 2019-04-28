@@ -69,7 +69,7 @@ class Inner extends React.Component {
 
         return (
             <View style={styles.wrapper}>
-            <ImageBackground resizeMode="repeat" source={require('../assets/img/robots.png')} style={styles.backgroundImage}>
+            <ImageBackground resizeMode="repeat" source={require('../assets/img/constellation.png')} style={styles.backgroundImage}>
             
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={{flex: 1}}>
                     <SafeAreaView style={styles.container}>
@@ -220,7 +220,8 @@ const styles = StyleSheet.create({
     brandSubtext: {
         fontSize: 25,
         textAlign: 'center',
-        color: '#918E8E'
+        //color: '#918E8E'
+        color: '#e4e4e4'
     },
     testButton: {
         padding: 10,
@@ -297,8 +298,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center', 
         alignItems: 'center', 
         flex: 1,
-        height: 50,
-        width: 50,
         //width: Dimensions.get('window').width * 1.5,
         //height: Dimensions.get('window').height * 1.5,  
     }
