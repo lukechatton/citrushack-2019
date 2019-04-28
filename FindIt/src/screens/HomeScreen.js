@@ -34,11 +34,13 @@ class Inner extends React.Component {
     }
 
     componentDidMount() {
-        const socket = io(SOCKET_URL, {
-            transports: ['websocket'],
-            jsonp: false
-        });
-        this.props.gameContext.state.setSocket(socket);
+        if(!this.props.gameContext.state.socket) {
+            const socket = io(SOCKET_URL, {
+                transports: ['websocket'],
+                jsonp: false
+            });
+            this.props.gameContext.state.setSocket(socket);
+        }   
     }
 
     render() {
