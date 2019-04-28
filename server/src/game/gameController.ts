@@ -28,7 +28,7 @@ export class GameController {
         // }
 
         this.items = [];
-        let tempList = itemList
+        let tempList = [...itemList];
         for (let i = 0; i < ITEM_COUNT; i++) {
             let tempVal = Math.floor(Math.random() * tempList.length)
             this.items.push(tempList[tempVal])
