@@ -139,9 +139,7 @@ class Inner extends React.Component {
                     animationType="slide"
                     transparent={false}
                     visible={this.state.modalVisible}
-                    onRequestClose={() => {
-                        Alert.alert('Modal has been closed.');
-                    }}>
+                >
                     <View style={{flex: 1, flexDirection: 'column', backgroundColor: theme.green}}>
                         <View style={{marginTop: 50}}>
                             <Text style={styles.howToTitle}>How to Play</Text>
