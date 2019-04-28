@@ -71,19 +71,21 @@ class Inner extends React.Component {
 
                     <View style={{flex: 1}} />
 
-                    <View style={{flexDirection: 'row'}}>
-                        <TextInput 
-                            placeholder='Pick a username'
-                            // leftIcon={{ type: 'font-awesome', name: 'phone' }}
-                            value={this.state.name}
-                            onChangeText={(name) => this.setState({name: name.toString()})}
-                            style={styles.textInput}
-                        />
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                        <TouchableOpacity onPress={this.onUpdateUsername} style={styles.getStartedButton}>
-                            <Text style={styles.getStartedText}>Change Name</Text>
-                        </TouchableOpacity>
+                    <View style={styles.container}>
+                        <View style={{flexDirection: 'row'}}>
+                            <TextInput 
+                                placeholder='Pick a username'
+                                // leftIcon={{ type: 'font-awesome', name: 'phone' }}
+                                value={this.state.name}
+                                onChangeText={(name) => this.setState({name: name.toString()})}
+                                style={styles.textInput}
+                            />
+                        </View>
+                        <View style={{flexDirection: 'row'}}>
+                            <TouchableOpacity onPress={this.onUpdateUsername} style={styles.getStartedButton}>
+                                <Text style={styles.getStartedText}>Change Name</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
 
                     <View style={{flex: 1}} />
