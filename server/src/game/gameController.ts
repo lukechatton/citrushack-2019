@@ -111,6 +111,12 @@ export class GameController {
                     user: this.getClientboundPlayerData(client)
                 });
                 console.log('new user data:', this.getClientboundPlayerData(client));
+
+                if(client.score >= 5) {
+                    this.io.emit('start-end', {
+                        winner: this.getClientboundPlayerData(client)
+                    });
+                }
             } else {
                 client.emit('scan-failure', {});
             }

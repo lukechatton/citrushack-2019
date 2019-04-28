@@ -112,7 +112,7 @@ class Inner extends React.Component {
 
 const styles = StyleSheet.create({
     wrapper: {
-        backgroundColor: '#2f2f3c',
+        backgroundColor: theme.background,
         flex: 1
     },
     container: {
