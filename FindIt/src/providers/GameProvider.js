@@ -14,7 +14,8 @@ export default class GameProvider extends React.Component {
 
         game: null, // game state
         user: null,
-        end: null
+        end: null,
+        playerList: null
     }
 
     constructor(props) {
@@ -54,6 +55,10 @@ export default class GameProvider extends React.Component {
 
         socket.on('update-state', data => {
             this.setState({ game: data });
+        });
+
+        socket.on('player-list', data => {
+            this.setState({ playerList: data });
         });
     }
 

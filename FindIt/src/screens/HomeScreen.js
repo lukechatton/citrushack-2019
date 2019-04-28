@@ -42,6 +42,15 @@ class Inner extends React.Component {
     }
 
     render() {
+        let players = [];
+        if(this.props.gameContext.state.playerList) {
+            for(let player of this.props.gameContext.state.playerList.players) {
+                players.push(
+                    <Text style={styles.playerListName}>{player.name}</Text>
+                )
+            }
+        }
+
         return (
             <View style={styles.container}>
                 <SafeAreaView style={styles.container}>
@@ -52,6 +61,10 @@ class Inner extends React.Component {
                     <TouchableOpacity onPress={this.onStart}>
                         <Text>Start</Text>
                     </TouchableOpacity>
+
+                    {players}
+
+                    <View style={{flex: 1}} />
 
                     <View style={{flexDirection: 'row'}}>
                         <TextInput 
@@ -142,4 +155,11 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         textAlign: 'center'
     },
+    playerListName: {
+        color: theme.green,
+        opacity: 0.8,
+        fontSize: 16,
+        fontWeight: '400',
+        marginBottom: 10
+    }
 });
