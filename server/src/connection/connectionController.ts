@@ -41,6 +41,7 @@ export class ConnectionController {
                         this.players.splice(this.players.indexOf(client), 1);   
                     }
                     console.log(client.user.name + ' disconnected.');
+                    this.emitPlayerList();
                 }
             });
 
@@ -50,8 +51,17 @@ export class ConnectionController {
             });
 
             client.on('change-username', name => {
-                client.user.name = name;
-                this.emitPlayerList();
+                if(client.user) {
+                    if(name && name.length > 0 && name.length < 18) {
+                        client.user.name = name;
+                    } else if (!name || name.length == 0) {
+                        return;
+                    } else {
+                        // name too long
+                        client.user.name = 'nope';
+                    }
+                    this.emitPlayerList();
+                }
             });
         });
     }

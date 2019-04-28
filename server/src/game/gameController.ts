@@ -12,6 +12,7 @@ export class GameController {
     items: ScavengerItem[] = [];
     startedAt: number;
     endsAt: number;
+    finishedTime: number;
 
     constructor(
         public io: SocketIO.Server
@@ -27,7 +28,7 @@ export class GameController {
         // }
 
         this.items = [];
-        let tempList = itemList
+        let tempList = [...itemList];
         for (let i = 0; i < ITEM_COUNT; i++) {
             let tempVal = Math.floor(Math.random() * tempList.length)
             this.items.push(tempList[tempVal])
@@ -111,6 +112,14 @@ export class GameController {
                     user: this.getClientboundPlayerData(client)
                 });
                 console.log('new user data:', this.getClientboundPlayerData(client));
+
+                if(client.score >= 5) {
+                    this.finishedTime = Date.now();
+                    this.io.emit('start-end', {
+                        winner: this.getClientboundPlayerData(client),
+                        elapsedTime: this.finishedTime - this.startedAt 
+                    });
+                }
             } else {
                 client.emit('scan-failure', {});
             }
